@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class TradesController extends Controller
 {
+    public function __construct()
+    {
+    }
     public function index() {
         $userId = Auth::id();
         $data = Trade::where('user_id', $userId)->get();
@@ -19,7 +22,10 @@ class TradesController extends Controller
     }
 
     public function store(Request $request) {
-        Trade::create($request->all());
+        $inputTrade = $request->all();
+        $functions = new FunctionsController();
+        $inputTrade['points'] = $functions->calculateTradePoints($inputTrade);
+        Trade::create($inputTrade);
     }
 
     public function getList(Request $request) {

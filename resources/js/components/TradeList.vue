@@ -9,7 +9,7 @@
 <template>
     <div class="card static-position">
         <div class="card-header">
-            Lasts transactions
+            Latest transactions
         </div>
         <div class="card-body">
             <div class="form-group row ml-3">
@@ -33,7 +33,8 @@
                     <td>{{data.market_name}}</td>
                     <td>{{data.asset_name}}</td>
                     <td>{{data.strategy_name || 'None'}}</td>
-                    <td :class="colorBalance(data.entry_price, data.exit_price, data.side_id)">{{balance(data.entry_price, data.exit_price, data.side_id)}}</td>
+                    <td :class="colorBalance(data.points)">{{data.points}}</td>
+                    <!-- <td :class="colorBalance(data.entry_price, data.exit_price, data.side_id)">{{balance(data.entry_price, data.exit_price, data.side_id)}}</td> -->
                 </tr>
                 </tbody>
             </table>
@@ -44,7 +45,7 @@
     export default {
         data() {
             return {
-                columns: ['Date', 'Side', 'Market', 'Asset', 'Strategy', 'Balance'],
+                columns: ['Date', 'Side', 'Market', 'Asset', 'Strategy', 'Points'],
                 datatable: [],
                 qty: 10,
                 arrQty: ['3','5','10'],
@@ -72,11 +73,11 @@
                 }
                 return value.toFixed(2)
             },
-            colorBalance(entry,exit,side) {
-                let balance = this.balance(entry,exit,side)
-                if(balance>0) {
+            colorBalance(value) {
+                // let balance = this.balance(entry,exit,side)
+                if(value>0) {
                     return 'text-success'
-                } else if(balance < 0) {
+                } else if(value < 0) {
                     return 'text-danger'
                 } else {
                     return ''

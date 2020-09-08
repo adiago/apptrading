@@ -45,7 +45,7 @@ class StatisticsController extends Controller
         $data =$request->all();
 
         $trades = Trade::select('trades.trade_date as date', 'trades.side_id', 'trades.entry_price',
-        'trades.exit_price','markets.name as market_name', 'assets.name as asset_name',
+        'trades.exit_price', 'trades.points as points', 'markets.name as market_name', 'assets.name as asset_name',
             'sides.name as side_name', 'strategies.name as strategy_name')
             ->leftJoin('assets', 'assets.id', '=', 'trades.asset_id')
             ->leftJoin('markets', 'markets.id', '=', 'assets.market_id')
