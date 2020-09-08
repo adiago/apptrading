@@ -10,7 +10,7 @@
 </style>
 <template>
     <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-end" style="min-height: 200px;">
-        <div class="toast position-toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+        <div class="toast position-toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
             <div class="toast-header text-white" :class="(icon == 'mood') ? 'bg-success' : 'bg-danger'">
                 <i class="material-icons">{{icon}}</i>&nbsp;
                 <strong class="mr-auto">{{header}}</strong>

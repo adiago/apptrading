@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="container">
-        <base-home :user-id={{Auth::id()}}></base-home>
+        <account :user="{{Auth::user()}}"></account>
     </div>
 @endsection

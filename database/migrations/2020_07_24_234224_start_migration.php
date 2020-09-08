@@ -37,7 +37,7 @@ class StartMigration extends Migration
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
@@ -918,7 +918,8 @@ class StartMigration extends Migration
             $table->foreignId('broker_id')->constrained()->nullable();
             $table->double('entry_price');
             $table->double('exit_price');
-            $table->date('trade_date')->nullable();
+            $table->double('points')->default(0);
+            $table->dateTime('trade_date')->nullable();
             $table->dateTime('entry_date')->nullable();
             $table->dateTime('exit_date')->nullable();
 

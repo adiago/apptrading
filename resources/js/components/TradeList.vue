@@ -2,9 +2,12 @@
     .pa-15 {
         padding: 15px;
     }
+    .static-position {
+        position: static;
+    }
 </style>
 <template>
-    <div class="card">
+    <div class="card static-position">
         <div class="card-header">
             Lasts transactions
         </div>

@@ -53,7 +53,6 @@
 
         methods: {
             loadWidgetStats() {
-                console.log('pre axios widget-stats');
                 axios.get('/widgets-stats')
                     .then((response) => {
                         this.$refs.widget.loadWidgetStats(response.data)
@@ -61,7 +60,6 @@
             },
             loadDataTable(qty=10) {
                 let query='?qty='+qty
-                console.log('pre axios data-tables');
                 axios.get('/data-tables'+query)
                     .then((response) => {
                         this.$refs.tradelist.loadData(response.data)

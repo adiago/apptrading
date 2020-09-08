@@ -41,7 +41,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputtradedate">Date</label>
-                                <input type="date" id="inputtradedate" class="form-control" v-model="tradedate">
+                                <input type="datetime-local" id="inputtradedate" class="form-control" v-model="tradedate">
                             </div>
                         </div>
                         <div class="form-row">

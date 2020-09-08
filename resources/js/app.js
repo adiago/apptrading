@@ -31,6 +31,7 @@ Vue.component('widget', require('./components/Widget.vue').default);
 Vue.component('trade-form', require('./components/TradeForm.vue').default);
 Vue.component('trade-list', require('./components/TradeList.vue').default);
 Vue.component('toast-message', require('./components/ToastMessage.vue').default);
+Vue.component('account', require('./components/Account.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

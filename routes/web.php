@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,12 +22,18 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-    Route::middleware('auth')->group(function() {
-        Route::get('/widgets-stats', 'StatisticsController@widgets');
-        Route::get('/data-tables', 'StatisticsController@datatable');
-        Route::get('/markets', 'MarketsController@index');
-        Route::get('/assets', 'AssetsController@index');
-        Route::get('/sides', 'SidesController@index');
-        Route::get('/strategies', 'StrategiesController@index');
-        Route::resource('trades', 'TradesController');
-    });
+Route::middleware('auth')->group(function() {
+Route::get('my-account', 'HomeController@myAccount');
+});
+
+Route::middleware('auth')->group(function() {
+    Route::get('/widgets-stats', 'StatisticsController@widgets');
+    Route::get('/data-tables', 'StatisticsController@datatable');
+    Route::get('/markets', 'MarketsController@index');
+    Route::get('/assets', 'AssetsController@index');
+    Route::get('/sides', 'SidesController@index');
+    Route::get('/ownUser', 'HomeController@getAuthUser');
+    Route::resource('strategies', 'StrategiesController');
+    Route::resource('trades', 'TradesController');
+    Route::resource('users', 'UserController');
+});
