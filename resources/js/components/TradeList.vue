@@ -7,6 +7,7 @@
     }
 </style>
 <template>
+<!-- https://es.investing.com/webmaster-tools/profit-calculator -->
     <div class="card static-position">
         <div class="card-header">
             Latest transactions
@@ -64,6 +65,9 @@
                 this.datatable = data
             },
 
+            format(value) {
+                return value.toFixed(2)
+            },
             balance(entry,exit,side) {
                 let value = 0
                 if (side == this.sellCode) {

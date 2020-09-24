@@ -13,6 +13,7 @@ import $ from 'jquery';
 window.$ = window.jQuery = $;
 
 import 'jquery-ui/ui/widgets/datepicker.js';
+
 //add as many widget as you may need
 /**
  * The following block of code may be used to automatically register your
@@ -32,6 +33,7 @@ Vue.component('trade-form', require('./components/TradeForm.vue').default);
 Vue.component('trade-list', require('./components/TradeList.vue').default);
 Vue.component('toast-message', require('./components/ToastMessage.vue').default);
 Vue.component('account', require('./components/Account.vue').default);
+Vue.component('graphs', require('./components/graphs.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

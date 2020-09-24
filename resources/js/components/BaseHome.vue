@@ -29,6 +29,7 @@
             <i class="material-icons md-36 my-float">add</i>
         </a>
         <trade-list ref="tradelist" @qty="loadDataTable"></trade-list>
+        <graphs></graphs>
         <!-- TOAST -->
         <toast-message
                 :icon="this.toastIcon"

@@ -21,7 +21,7 @@ class FunctionsController extends Controller
             $diff = $trade['entry_price'] - $trade['exit_price'];
         }
 
-        $points = $diff / $asset->tick;
+        $points = round($diff / $asset->tick, 4);
 
         return $points;
     }
