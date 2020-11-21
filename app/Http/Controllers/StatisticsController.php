@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Side;
 use App\Trade;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -55,6 +56,22 @@ class StatisticsController extends Controller
             ->orderBy('trades.id', 'DESC')
             ->take($data['qty'])
             ->get();
+        return response()->json($trades);
+    }
+
+    public function chartPoints(Request $request) {
+        $userId = Auth::id();
+        $data =$request->all();
+
+        $trades = Trade::select('points')
+            ->where('user_id', $userId)
+            ->orderBy('trade_date', 'DESC')
+            ->where('points', '>', 1)
+            // ->groupBy(function($val) {
+            //     return Carbon::parse($val->trade_date)->format('d');
+            // })
+            ->limit(12)
+            ->pluck('points');
         return response()->json($trades);
     }
 }

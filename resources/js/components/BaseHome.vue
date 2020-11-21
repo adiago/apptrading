@@ -29,7 +29,8 @@
             <i class="material-icons md-36 my-float">add</i>
         </a>
         <trade-list ref="tradelist" @qty="loadDataTable"></trade-list>
-        <graphs></graphs>
+
+        <chartjs></chartjs>
         <!-- TOAST -->
         <toast-message
                 :icon="this.toastIcon"
@@ -47,7 +48,7 @@
                 toastHeader: null,
                 toastMessage: null,
                 showToast: false,
-                widgetsData: []
+                widgetsData: [],
             }
         },
         props: ['userId'],
@@ -85,7 +86,8 @@
             updateData() {
                 this.loadWidgetStats()
                 this.loadDataTable()
-            }
+            },
+
         },
         mounted: function() {
             this.updateData()

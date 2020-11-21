@@ -29,6 +29,7 @@ Route::get('my-account', 'HomeController@myAccount');
 Route::middleware('auth')->group(function() {
     Route::get('/widgets-stats', 'StatisticsController@widgets');
     Route::get('/data-tables', 'StatisticsController@datatable');
+    Route::get('/chart-points', 'StatisticsController@chartPoints');
     Route::get('/markets', 'MarketsController@index');
     Route::get('/assets', 'AssetsController@index');
     Route::get('/sides', 'SidesController@index');
