@@ -63,15 +63,12 @@ class StatisticsController extends Controller
         $userId = Auth::id();
         $data =$request->all();
 
-        $trades = Trade::select('points')
+        $trades = Trade::selectRaw('SUM(points) as points, DATE_FORMAT(DATE(trade_date), "%d/%m/%y")  as date_trade')
             ->where('user_id', $userId)
-            ->orderBy('trade_date', 'DESC')
-            ->where('points', '>', 1)
-            // ->groupBy(function($val) {
-            //     return Carbon::parse($val->trade_date)->format('d');
-            // })
-            ->limit(12)
-            ->pluck('points');
-        return response()->json($trades);
+            ->groupBy('date_trade')
+            ->orderBy('trade_date', 'ASC')
+            ->pluck('points', 'date_trade');
+                
+            return response()->json($trades);
     }
 }

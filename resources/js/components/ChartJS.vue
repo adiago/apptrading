@@ -12,11 +12,11 @@
         loaded: false,
         datacollection: {
             // title: 'Puntos',
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            labels: [],
             datasets: [
                 {
-                    label: 'Data One',
-                    backgroundColor: '#f87979',
+                    label: 'Puntos',
+                    backgroundColor: '#249EBF',
                     pointBackgroundColor: 'white',
                     borderWidth: 1,
                     pointBorderColor: '#249EBF',
@@ -32,7 +32,8 @@
                 var vm = this
                 axios.get('/chart-points')
                     .then((response) => {
-                        vm.datacollection.datasets[0].data = response.data
+                        vm.datacollection.labels = Object.keys(response.data)
+                        vm.datacollection.datasets[0].data = Object.values(response.data)
                         vm.loaded = true
                     });
 
@@ -40,7 +41,7 @@
             loadNext() {
                 var vm = this
                 setTimeout(function() {
-                    vm.datacollection.datasets[0].data = [1,2,3,4,5,6,7,8,9,10,11,12]
+                    // vm.datacollection.datasets[0].data = [1,2,3,4,5,6,7,8,9,10,11,12]
                     vm.$refs.radarChart.update()
 
 
@@ -50,7 +51,7 @@
 
     mounted: function() {
         this.loadData()
-        this.loadNext()
+        // this.loadNext()
     }
   }
 </script>

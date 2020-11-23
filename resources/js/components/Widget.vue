@@ -42,7 +42,6 @@
 
         methods: {
             loadWidgetStats(widgetsData) {
-                console.log('widget load');
                 this.widgets[0].val = widgetsData.countTrades
                 this.widgets[3].val = widgetsData.winTrades
                 this.widgets[5].val = widgetsData.lossTrades
