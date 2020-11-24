@@ -66,7 +66,7 @@ class StatisticsController extends Controller
         $trades = Trade::selectRaw('SUM(points) as points, DATE_FORMAT(DATE(trade_date), "%d/%m/%y")  as date_trade')
             ->where('user_id', $userId)
             ->groupBy('date_trade')
-            ->orderBy('trade_date', 'ASC')
+            ->orderBy('date_trade', 'ASC')
             ->pluck('points', 'date_trade');
                 
             return response()->json($trades);
