@@ -47,7 +47,7 @@
                 <div class="form-row col-md-12">
                     <div class="form-group col-md-6">
                         <div class="form-row col-md-12">
-                            <label for="strategy_name">Add strategy</label>
+                            <label for="strategy_name">Nueva estrategia</label>
                         </div>
                         <div class="form-row col-md-12">
                             <div class="form-group col-md-8">
