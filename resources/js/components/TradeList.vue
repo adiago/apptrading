@@ -8,7 +8,7 @@
 </style>
 <template>
 <!-- https://es.investing.com/webmaster-tools/profit-calculator -->
-    <div class="card static-position">
+    <div class="card static-position my-3">
         <div class="card-header">
             Latest transactions
         </div>
@@ -17,7 +17,7 @@
                 <label for="inputState" class="col-form-label">Mostrar</label>
                 <div class="col-md-2 col-sm-3 col-xs-6">
                     <select id="inputState" v-model="qty" class="form-control">
-                        <option v-for="n in arrQty">{{n}}</option>
+                        <option v-for="(n,idx) in arrQty" :key="idx">{{n}}</option>
                     </select>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                 <tr v-for="data in datatable" :key="data.id">
                     <td>{{data.date}}</td>
                     <td>{{data.side_name}}</td>
-                    <td>{{data.market_name}}</td>
+                    <!-- <td class="hidden-xs-down">{{data.market_name}}</td> -->
                     <td>{{data.asset_name}}</td>
                     <td>{{data.strategy_name || 'None'}}</td>
                     <td :class="colorBalance(data.points)">{{data.points}}</td>
@@ -46,7 +46,7 @@
     export default {
         data() {
             return {
-                columns: ['Date', 'Side', 'Market', 'Asset', 'Strategy', 'Points'],
+                columns: ['Date', 'Side',  'Asset', 'Strategy', 'Points'],
                 datatable: [],
                 qty: 10,
                 arrQty: ['3','5','10'],

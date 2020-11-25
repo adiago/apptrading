@@ -1,9 +1,13 @@
 <style>
+.widget-custom {
+    padding: 2px!important;
+    min-width: 170px!important;
+}
 </style>
 <template>
-    <div class="col-md-12 col-xs-12 row">
+    <div class="row">
     <!--<div class="row wrap col-md-12 justify-content-around">-->
-        <div class="h-100 col-md-4 col-sm-6 col-xs-6 p-2" v-for="w in widgets">
+        <div class="h-100 col-md-4 col-sm-6 col-xs-6 w-auto widget-custom" v-for="(w,index) in widgets" :key="index">
             <div class="card text-white" :class="w.color">
                 <div class="card-body">
                     <div class="rotate">

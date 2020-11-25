@@ -71,4 +71,17 @@ class StatisticsController extends Controller
                 
             return response()->json($trades);
     }
+    
+    public function chartCumulativePoints(Request $request) {
+        $userId = Auth::id();
+        $data =$request->all();
+
+        $trades = Trade::selectRaw('SUM(points) as points, DATE_FORMAT(DATE(trade_date), "%d/%m/%y")  as date_trade')
+            ->where('user_id', $userId)
+            ->groupBy('date_trade')
+            ->orderBy('date_trade', 'ASC')
+            ->pluck('points', 'date_trade');
+                
+            return response()->json($trades);
+    }
 }

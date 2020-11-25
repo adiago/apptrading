@@ -1,6 +1,18 @@
 <template>
-    <div class="py-5">
-        <linechart ref="radarChart" v-if="loaded" :chart-data="datacollection"></linechart>
+    <div class="py-3">
+        <div class="card my-3">
+            <div class="card-header">Puntos diarios</div>
+            <div class="card-body">
+                <linechart ref="radarChart" v-if="loaded" :chart-data="datacollection"></linechart>
+            </div>
+        </div>
+
+        <div class="card my-3">
+            <div class="card-header">Puntos acumulados</div>
+            <div class="card-body">
+                <linechart ref="radarChart" v-if="loaded" :chart-data="datacollection"></linechart>
+            </div>
+        </div>
     </div>
 </template>
 
