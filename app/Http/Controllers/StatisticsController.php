@@ -15,8 +15,10 @@ class StatisticsController extends Controller
         $userId = Auth::id();
         $trades = Trade::where('user_id', $userId)->get();
         $countTrades = count($trades);
+        $pointsTrades = 0;
         $winTrades = $lossTrades = $breakEven = 0;
         foreach ($trades as $trade) {
+            $pointsTrades += $trade->points;
             if($trade->side_id == Side::SELL) {
                 if($trade->entry_price > $trade->exit_price) $winTrades++;
                 else if($trade->entry_price < $trade->exit_price) $lossTrades++;
@@ -32,6 +34,7 @@ class StatisticsController extends Controller
 
         $data = [
             'countTrades' => $countTrades,
+            'pointsTrades' => round($pointsTrades,2),
             'winTrades' => $winTrades,
             'lossTrades' => $lossTrades,
             'breakEven' => $breakEven
@@ -63,13 +66,13 @@ class StatisticsController extends Controller
         $userId = Auth::id();
         $data =$request->all();
 
-        $trades = Trade::selectRaw('SUM(points) as points, DATE_FORMAT(DATE(trade_date), "%d/%m/%y")  as date_trade')
+        $trades = Trade::selectRaw('id, SUM(points) as points, DATE_FORMAT(DATE(trade_date), "%d/%m/%y")  as date_trade')
             ->where('user_id', $userId)
             ->groupBy('date_trade')
-            ->orderBy('date_trade', 'ASC')
+            ->orderBy('points', 'DESC')
             ->pluck('points', 'date_trade');
-                
-            return response()->json($trades);
+            
+        return response()->json($trades);
     }
     
     public function chartCumulativePoints(Request $request) {

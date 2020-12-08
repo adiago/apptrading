@@ -7,12 +7,12 @@
             </div>
         </div>
 
-        <div class="card my-3">
+        <!-- <div class="card my-3">
             <div class="card-header">Puntos acumulados</div>
             <div class="card-body">
                 <linechart ref="radarChart" v-if="loaded" :chart-data="datacollection"></linechart>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -28,10 +28,12 @@
             datasets: [
                 {
                     label: 'Puntos',
-                    backgroundColor: '#249EBF',
-                    pointBackgroundColor: 'white',
-                    borderWidth: 1,
-                    pointBorderColor: '#249EBF',
+                    lineTension: 0, 
+                    fill: false,
+                    // backgroundColor: '#249EBF',
+                    pointBackgroundColor: '#865390',
+                    borderWidth: 3,
+                    pointBorderColor: '#865390',
                     //Data to be represented on y-axis
                     data: []
                 }
@@ -44,8 +46,19 @@
                 var vm = this
                 axios.get('/chart-points')
                     .then((response) => {
-                        vm.datacollection.labels = Object.keys(response.data)
-                        vm.datacollection.datasets[0].data = Object.values(response.data)
+                        var objs = response.data
+
+                        var ordered = {};
+                        Object.keys(objs).sort(function(a,b) {
+                            a = a.split('/').reverse().join('')
+                            b = b.split('/').reverse().join('')
+                            return a.localeCompare(b)
+                        }).forEach(function(key) {
+                            ordered[key] = objs[key];
+                        });
+
+                        vm.datacollection.labels = Object.keys(ordered)
+                        vm.datacollection.datasets[0].data = Object.values(ordered)
                         vm.loaded = true
                     });
 

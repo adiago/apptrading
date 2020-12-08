@@ -1,7 +1,8 @@
 <style>
-.widget-custom {
-    padding: 2px!important;
-    min-width: 170px!important;
+@media screen and (max-width: 767px) {
+    .widget-custom {
+        min-width: 50%!important;
+    }
 }
 </style>
 <template>
@@ -20,7 +21,7 @@
                     <div  v-show="loadwidget" class="spinner-border" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
-                    <h1 v-show="!loadwidget" class="display-4">{{w.val}}</h1>
+                    <h1 v-show="!loadwidget" class="display-5">{{w.val}}</h1>
                 </div>
             </div>
         </div>
@@ -47,6 +48,7 @@
         methods: {
             loadWidgetStats(widgetsData) {
                 this.widgets[0].val = widgetsData.countTrades
+                this.widgets[1].val = widgetsData.pointsTrades
                 this.widgets[3].val = widgetsData.winTrades
                 this.widgets[5].val = widgetsData.lossTrades
                 this.widgets[4].val = widgetsData.breakEven
