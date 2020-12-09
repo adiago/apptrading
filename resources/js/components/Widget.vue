@@ -8,7 +8,7 @@
 <template>
     <div class="row">
     <!--<div class="row wrap col-md-12 justify-content-around">-->
-        <div class="h-100 col-md-4 col-sm-6 col-xs-6 w-auto widget-custom" v-for="(w,index) in widgets" :key="index">
+        <div class="h-100 col-md-4 col-sm-6 col-xs-6 widget-custom py-1" v-for="(w,index) in widgets" :key="index">
             <div class="card text-white" :class="w.color">
                 <div class="card-body">
                     <div class="rotate">

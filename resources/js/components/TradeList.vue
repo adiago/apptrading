@@ -24,7 +24,7 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="col" v-for="(col,idx) in columns" :key="idx">{{col}}</th>
+                    <th scope="col" :class="(col=='Strategy') ? 'd-none d-sm-block' : ''" v-for="(col,idx) in columns" :key="idx">{{col}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -33,7 +33,7 @@
                     <td>{{data.side_name}}</td>
                     <!-- <td class="hidden-xs-down">{{data.market_name}}</td> -->
                     <td>{{data.asset_name}}</td>
-                    <td>{{data.strategy_name || 'None'}}</td>
+                    <td class="d-none d-sm-block">{{data.strategy_name || 'None'}}</td>
                     <td :class="colorBalance(data.points)">{{data.points}}</td>
                     <!-- <td :class="colorBalance(data.entry_price, data.exit_price, data.side_id)">{{balance(data.entry_price, data.exit_price, data.side_id)}}</td> -->
                 </tr>
