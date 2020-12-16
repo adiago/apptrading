@@ -1,7 +1,7 @@
 <template>
     <div class="py-3">
         <div class="card my-3">
-            <div class="card-header">Puntos diarios</div>
+            <div class="card-header">Sumatorio Diario</div>
             <div class="card-body">
                 <linechart ref="radarChart" v-if="loaded" :chart-data="datacollection"></linechart>
             </div>
@@ -47,14 +47,15 @@
                 axios.get('/chart-points')
                     .then((response) => {
                         var objs = response.data
-
+                        var total = 0
                         var ordered = {};
                         Object.keys(objs).sort(function(a,b) {
                             a = a.split('/').reverse().join('')
                             b = b.split('/').reverse().join('')
                             return a.localeCompare(b)
                         }).forEach(function(key) {
-                            ordered[key] = objs[key];
+                            total += objs[key]
+                            ordered[key] = total;
                         });
 
                         vm.datacollection.labels = Object.keys(ordered)

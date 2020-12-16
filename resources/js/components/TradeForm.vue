@@ -106,10 +106,11 @@
 
         methods: {
             loadData() {
-                this.loadMarkets()
-                this.loadAssets()
-                this.loadSides();
-                this.loadStrategies();
+                var vm = this
+                vm.loadMarkets()
+                vm.loadAssets()
+                vm.loadSides();
+                vm.loadStrategies();
             },
             loadMarkets() {
                 let vm = this
@@ -145,13 +146,13 @@
                 if (!validate) return null
                 let vm = this
                 let data = {
-                    'side_id': this.side,
-                    'strategy_id': this.strategy,
-                    'asset_id': this.asset,
-                    'entry_price': this.entryprice,
-                    'exit_price': this.exitprice,
-                    'trade_date': this.tradedate,
-                    'user_id': this.userId
+                    'side_id': vm.side,
+                    'strategy_id': vm.strategy,
+                    'asset_id': vm.asset,
+                    'entry_price': vm.entryprice,
+                    'exit_price': vm.exitprice,
+                    'trade_date': vm.tradedate,
+                    'user_id': vm.userId
                 }
                 axios.post('/trades', data)
                     .then((response) => {
