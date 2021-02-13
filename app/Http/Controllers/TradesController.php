@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Trade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TradesController extends Controller
 {
@@ -26,6 +27,23 @@ class TradesController extends Controller
         $functions = new FunctionsController();
         $inputTrade['points'] = $functions->calculateTradePoints($inputTrade);
         Trade::create($inputTrade);
+    }
+
+    public function update(Request $request, $tradeId) {
+        $inputTrade = $request->all();
+        $functions = new FunctionsController();
+        $inputTrade['points'] = $functions->calculateTradePoints($inputTrade);
+        $trade = Trade::find($tradeId)->update(
+            ['side_id' => $inputTrade['side_id'] ?? null,
+            'strategy_id' => $inputTrade['strategy_id'] ?? null,
+            'mood_id' => $inputTrade['mood_id'] ?? null,
+            'asset_id' => $inputTrade['asset_id'] ?? null,
+            'entry_price' => $inputTrade['entry_price'] ?? null,
+            'exit_price' => $inputTrade['exit_price'] ?? null,
+            'points' => $inputTrade['points'] ?? null,
+            'trade_date' => $inputTrade['trade_date'] ?? null,
+            ]
+        );
     }
 
     public function getList(Request $request) {

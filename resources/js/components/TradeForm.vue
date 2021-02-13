@@ -4,8 +4,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add trade</h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">{{actionTitle}} trade</h5>
+                    <button type="button" class="close" data-dismiss="modal" @click="resetForm">&times;</button>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -76,7 +76,7 @@
                     </form>
                 </div>
                 <div class="modal-footer form-group">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" @click="resetForm" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary" @click="saveForm()">Save trade</button>
                 </div>
             </div>
@@ -100,9 +100,18 @@
                 exitprice: null,
                 arrStrategy: [],
                 strategy: null,
+                update: 0,
+                tradeId: null,
+                actionTitle: 'Add'
             }
         },
         props: ['userId'],
+
+        computed: {
+            transaction() {
+                    return this.$store.state.transaction
+                }
+        },
 
         methods: {
             loadData() {
@@ -154,21 +163,41 @@
                     'trade_date': vm.tradedate,
                     'user_id': vm.userId
                 }
-                axios.post('/trades', data)
-                    .then((response) => {
-                        // handle success
-                        $('#addTradeModal').modal('hide');
-                        this.$emit('tradeForm', 'ok')
-                    })
-                    .catch((error) => {
-                        // handle error
-                        $('#addTradeModal').modal('hide');
-                        this.$emit('tradeForm', 'ko')
-                    })
-                    .then(() => {
-                        // always executedt
-                        console.log('always there');
-                    });
+
+                if (this.tradeId == null) {
+                    axios.post('/trades', data)
+                        .then((response) => {
+                            // handle success
+                            $('#addTradeModal').modal('hide');
+                            this.$emit('tradeForm', {message: 'created!', status: 'ok'})
+                        })
+                        .catch((error) => {
+                            // handle error
+                            $('#addTradeModal').modal('hide');
+                            this.$emit('tradeForm', {status: 'ko'})
+                        })
+                        .then(()=> {
+                            // always executedt
+                            console.log('always there');
+                        });
+                } else {
+                    axios.put('/trades/'+this.tradeId, data)
+                        .then((response) => {
+                            // handle success
+                            $('#addTradeModal').modal('hide');
+                            this.$emit('tradeForm', {message:'updated!', status: 'ok'})
+                        })
+                        .catch((error) => {
+                            // handle error
+                            $('#addTradeModal').modal('hide');
+                            this.$emit('tradeForm', {status: 'ko'})
+                        })
+                        .then(() => {
+                            // always executedt
+                            console.log('always there');
+                        });
+                }
+                this.resetForm()
             },
 
             validateForm() {
@@ -190,15 +219,52 @@
                 })
                 return validate
             },
+            resetForm() {
+                let vm = this
+                vm.market = null,
+                vm.arrAsset = [],
+                vm.asset = null,
+                vm.side = null,
+                vm.tradedate = null,
+                vm.entryprice = null,
+                vm.exitprice = null,
+                vm.strategy = null,
+                vm.update = false
+                vm.actionTitle = 'Add'
+                vm.tradeId = null
+                
+                this.$store.commit("updateTransaction", {})
+            }
         },
 
         watch: {
             market: function (val, oldVal) {
-                if (val != oldVal) {
+                if (val != oldVal && val !== null) {
                     this.arrAsset = this.allAssets.filter(function (asset) {
                         return asset.market_id === val
                     })
-                    this.asset = null;
+                    if(!this.update)
+                        this.asset = null;
+                }
+            },
+            transaction: function(val, oldVal) {
+                if(val.data === undefined) return
+                let transaction = val.data
+                let date_transaction = transaction.date
+
+                this.update = 1
+                this.market = transaction.market_id
+                this.asset = transaction.asset_id
+                this.strategy = transaction.strategy_id
+                this.side = transaction.side_id
+                this.entryprice = transaction.entry_price
+                this.exitprice = transaction.exit_price
+                this.tradedate = date_transaction.replace(" ", "T").replace(/...$/,"")
+                this.tradeId = transaction.trade_id
+            },
+            update: function(val, oldVal) {
+                if((val != oldVal) && val ) {
+                    this.actionTitle = 'Edit'
                 }
             }
         },

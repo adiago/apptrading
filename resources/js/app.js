@@ -43,6 +43,24 @@ Vue.component('chartjs', require('./components/ChartJS.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  state: {
+    count: 'heheh',
+    transaction: {}
+  },
+  mutations: {
+    updateTransaction (state,newTransaction) {
+        state.transaction = newTransaction;
+      }
+  }
+})
+
 const app = new Vue({
     el: '#app',
+    store: store,
 });

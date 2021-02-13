@@ -35,7 +35,15 @@
                     <td>{{data.asset_name}}</td>
                     <td class="d-none d-sm-block">{{data.strategy_name || 'None'}}</td>
                     <td :class="colorBalance(data.points)">{{data.points}}</td>
-                    <!-- <td :class="colorBalance(data.entry_price, data.exit_price, data.side_id)">{{balance(data.entry_price, data.exit_price, data.side_id)}}</td> -->
+                    <td>
+                        <a data-toggle="modal" data-target="#addTradeModal" @click="sendTransaction(data)">
+                            <i class="material-icons pointer hover-darkred" title="Editar">edit</i>
+                        </a>
+                        <!-- <a data-toggle="modal" data-target="#addTradeModal" @click="deleteTransaction(data)">
+                            <i class="material-icons pointer hover-darkred">delete</i>
+                        </a> -->
+     
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -46,7 +54,7 @@
     export default {
         data() {
             return {
-                columns: ['Date', 'Side',  'Asset', 'Strategy', 'Points'],
+                columns: ['Date', 'Side',  'Asset', 'Strategy', 'Points', 'Actions'],
                 datatable: [],
                 qty: 10,
                 arrQty: ['3','5','10'],
@@ -89,6 +97,9 @@
             },
             changeQty(qty) {
                 this.$emit('qty', qty)
+            },
+            sendTransaction(data) {
+                this.$store.commit("updateTransaction", {data})
             }
         }
     }

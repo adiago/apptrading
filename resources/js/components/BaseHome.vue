@@ -67,13 +67,14 @@
                         this.$refs.tradelist.loadData(response.data)
                     });
             },
-            tradeFormSaved(val) {
-                if(val=='ok') {
+            tradeFormSaved(data) {
+                console.log(data);
+                if(data.status=='ok') {
                     this.toastIcon = 'mood'
-                    this.toastHeader = 'Trade added!'
-                    this.toastMessage = 'The trade has been successfully added.'
+                    this.toastHeader = 'Trade ' + data.message
+                    this.toastMessage = 'The trade has been successfully ' + data.message
                     this.updateData()
-                } else if (val == 'ko') {
+                } else if (data.status == 'ko') {
                     this.toastIcon = 'mood_bad'
                     this.toastHeader = 'Trade failed!'
                     this.toastMessage = 'The trade could not be added.'
