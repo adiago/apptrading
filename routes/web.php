@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/widgets-stats', 'StatisticsController@widgets');
     Route::get('/data-tables', 'StatisticsController@datatable');
     Route::get('/chart-points', 'StatisticsController@chartPoints');
+    Route::get('/chart-winloss', 'StatisticsController@chartWinLoss');
     Route::get('/markets', 'MarketsController@index');
     Route::get('/assets', 'AssetsController@index');
     Route::get('/sides', 'SidesController@index');

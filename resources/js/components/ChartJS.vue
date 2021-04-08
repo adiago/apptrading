@@ -1,36 +1,60 @@
+<style>
+.center-card {
+    margin-left: auto ;
+    margin-right: auto ;
+}
+</style>
+
 <template>
     <div class="py-3">
-        <div class="card my-3">
+        <div class="card my-3 static-position">
             <div class="card-header">Sumatorio Diario</div>
             <div class="card-body">
-                <linechart ref="radarChart" v-if="loaded" :chart-data="datacollection"></linechart>
+                <linechart ref="radarChart" v-if="datasetWinLoss.loaded" :chart-data="datasetSumDiary"></linechart>
             </div>
         </div>
 
-        <!-- <div class="card my-3">
-            <div class="card-header">Puntos acumulados</div>
-            <div class="card-body">
-                <linechart ref="radarChart" v-if="loaded" :chart-data="datacollection"></linechart>
+         <div class="card my-3 static-position">
+            <div class="card-header">Operaciones Positivas/Negativas</div>
+            <div class="card-body center-card">
+                <piechart ref="radarChart" v-if="datasetSumDiary.loaded" :chart-data="datasetWinLoss"></piechart>
             </div>
-        </div> -->
+        </div>
     </div>
 </template>
 
 <script>
+import PieChart from "./PieChart.vue"
+
 
   export default {
+    components: { PieChart },
     name: 'VueChartJS',
     data: () => ({
-        loaded: false,
-        datacollection: {
-            // title: 'Puntos',
+        
+        datasetWinLoss: {
+            loaded: false,
+            labels: ['Positivo', 'Negativo', 'Break Even'],
+            datasets: [
+            {
+                borderWidth: 3,
+                backgroundColor: [
+                    '#41B883',
+                    '#E46651',
+                    '#343a40',
+                ],
+                data: []
+            }],
+        },
+        datasetSumDiary: {
+            loaded: false,
             labels: [],
+            
             datasets: [
                 {
                     label: 'Puntos',
                     lineTension: 0, 
                     fill: false,
-                    // backgroundColor: '#249EBF',
                     pointBackgroundColor: '#865390',
                     borderWidth: 3,
                     pointBorderColor: '#865390',
@@ -42,7 +66,7 @@
     }),
 
     methods: {
-            loadData() {
+            loadDataSumDiary() {
                 var vm = this
                 axios.get('/chart-points')
                     .then((response) => {
@@ -58,26 +82,33 @@
                             ordered[key] = total;
                         });
 
-                        vm.datacollection.labels = Object.keys(ordered)
-                        vm.datacollection.datasets[0].data = Object.values(ordered)
-                        vm.loaded = true
+                        vm.datasetSumDiary.labels = Object.keys(ordered)
+                        vm.datasetSumDiary.datasets[0].data = Object.values(ordered)
+                        vm.datasetSumDiary.loaded = true
                     });
 
+            },
+            loadDataWinLoss(data) {
+                var vm = this
+                var all = data.countTrades
+                var wins = Math.round(data.winTrades/all *100)
+                var losses = Math.round(data.lossTrades/all *100)
+                var breakevens = Math.round(data.breakEven/all *100)
+                
+                vm.datasetWinLoss.datasets[0].data = [wins,losses,breakevens]
+                vm.datasetWinLoss.loaded = true
             },
             loadNext() {
                 var vm = this
                 setTimeout(function() {
-                    // vm.datacollection.datasets[0].data = [1,2,3,4,5,6,7,8,9,10,11,12]
                     vm.$refs.radarChart.update()
-
-
+                    vm.$refs.radarChart.update()
                 }, 5000)
             }
     },
 
     mounted: function() {
-        this.loadData()
-        // this.loadNext()
+        this.loadDataSumDiary()
     }
   }
 </script>

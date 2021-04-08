@@ -34,6 +34,7 @@ Vue.component('trade-list', require('./components/TradeList.vue').default);
 Vue.component('toast-message', require('./components/ToastMessage.vue').default);
 Vue.component('account', require('./components/Account.vue').default);
 Vue.component('linechart', require('./components/LineChart.vue').default);
+Vue.component('piechart', require('./components/PieChart.vue').default);
 Vue.component('chartjs', require('./components/ChartJS.vue').default);
 
 

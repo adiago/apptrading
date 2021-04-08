@@ -29,8 +29,12 @@
           legend: {
             display: true
           },
-          responsive: true,
-          maintainAspectRatio: false
+         responsive: true,
+         maintainAspectRatio: false,
+         pieceLabel: {
+           mode: 'percentage',
+           precision: 1
+         }
         }
       }
     },

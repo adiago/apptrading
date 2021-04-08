@@ -41,6 +41,31 @@
         </div>
         <div class="card m-4">
             <div class="card-header">
+                Preferencias
+            </div>
+             <div class="card-body">
+                
+                <div class="form-row col-md-12">
+                    <div class="form-group col-md-4">
+                        <label for="inputmarket">Mercado predeterminado</label>
+                                <select id="inputmarket"
+                                        class="form-control"
+                                        v-model="market"
+                                        required
+                                        disabled>
+                                    <option disabled value='null'>Select market</option>
+                                    <option v-for="n in allMarkets" :value="n.id">{{n.name}}</option>
+                                </select>
+                    </div>
+                
+                </div>
+                <button type="submit" disabled class="btn btn-primary float-right" @click="editUser(user.id)">Guardar</button>
+            
+
+             </div>
+        </div>
+        <div class="card m-4">
+            <div class="card-header">
                 Estrategias
             </div>
             <div class="card-body">
@@ -98,7 +123,8 @@
                 strategies: [],
                 newNameStrategy: null,
                 newdDescriptionStategy: null,
-
+                allMarkets: [],
+                market: null,
                 toastIcon: null,
                 toastHeader: null,
                 toastMessage: null,
@@ -107,9 +133,17 @@
         },
         props: ['user'],
         methods: {
+            loadMarkets() {
+                let vm = this
+                axios.get('/markets')
+                    .then((response) => {
+                        vm.allMarkets = response.data
+                    });
+            },
             loadUser() {
                 axios.get('/ownUser').then((response) => {
-                    console.log(response);
+                    this.market = response.data.market_id
+                    $('#inputmarket').selectedIndex = response.data.market_id
                 });
             },
             loadStrategies() {
@@ -219,6 +253,7 @@
         },
         mounted() {
             this.loadStrategies()
+            this.loadMarkets()
             this.loadUser()
         }
     }

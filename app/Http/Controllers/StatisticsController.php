@@ -90,4 +90,18 @@ class StatisticsController extends Controller
                 
             return response()->json($trades);
     }
+    public function chartWinLoss(Request $request) {
+        $userId = Auth::id();
+        $data =$request->all();
+
+        $wins = Trade::where('points', '>', 0)
+            ->where('user_id', $userId)
+            ->get()->count();
+        $loss = Trade::where('points', '<', 0)
+            ->where('user_id', $userId)
+            ->get()->count();
+                
+        return response()->json([$wins, $loss]);
+    }
+    
 }

@@ -15,6 +15,9 @@
         margin-top:5px;
         color: white;
     }
+    .z-index999 {
+        z-index: 999;
+    }
 </style>
 <template>
     <div>
@@ -25,18 +28,18 @@
         </trade-form>
         <a
             data-toggle="modal" data-target="#addTradeModal"
-            class="float btn btn-success">
+            class="float btn btn-success z-index999">
             <i class="material-icons md-36 my-float">add</i>
         </a>
         <trade-list ref="tradelist" @qty="loadDataTable"></trade-list>
 
-        <chartjs></chartjs>
+        <chartjs ref="chartjs"></chartjs>
         <!-- TOAST -->
         <toast-message
-                :icon="this.toastIcon"
-                :header="this.toastHeader"
-                :message="this.toastMessage"
-                v-show="this.showToast"
+            :icon="this.toastIcon"
+            :header="this.toastHeader"
+            :message="this.toastMessage"
+            v-show="this.showToast"
         ></toast-message>
     </div>
 </template>
@@ -58,6 +61,7 @@
                 axios.get('/widgets-stats')
                     .then((response) => {
                         this.$refs.widget.loadWidgetStats(response.data)
+                        this.$refs.chartjs.loadDataWinLoss(response.data)
                     });
             },
             loadDataTable(qty=10) {
