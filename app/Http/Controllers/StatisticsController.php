@@ -94,14 +94,29 @@ class StatisticsController extends Controller
         $userId = Auth::id();
         $data =$request->all();
 
-        $wins = Trade::where('points', '>', 0)
+        $win = Trade::where('points', '>', 0)
             ->where('user_id', $userId)
             ->get()->count();
         $loss = Trade::where('points', '<', 0)
             ->where('user_id', $userId)
-            ->get()->count();
-                
-        return response()->json([$wins, $loss]);
+            ->get()->count();        
+        $breakEven = Trade::where('points', '=', 0)
+        ->where('user_id', $userId)
+        ->get()->count();
+
+        return response()->json(['win' => $win, 'loss' => $loss, 'break' => $breakEven]);
+    }
+
+    public function chartLongShort() {
+        $userId = Auth::id();
+
+        $long = Trade::where('side_id', Side::BUY)
+        ->where('user_id', $userId)->count();
+        $short = Trade::where('side_id', Side::SELL)
+        ->where('user_id', $userId)->count();
+
+        return response()->json(['long' => $long, 'short' => $short]);
+    
     }
     
 }

@@ -1,11 +1,11 @@
 <script>
 
 //Importing Line class from the vue-chartjs wrapper
-import { Pie } from "vue-chartjs";
+import { Bar } from "vue-chartjs";
 
 //Exporting this so it can be used in other components
 export default {
-  extends: Pie,
+  extends: Bar,
   props: ['chartData'],
   data () {
     return {
@@ -39,6 +39,7 @@ export default {
   watch: {
     data: function() {
       this._chart.destroy();
+      //this.renderChart(this.data, this.options);
       this.update();
     }
   },

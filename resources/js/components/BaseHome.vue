@@ -61,8 +61,7 @@
                 axios.get('/widgets-stats')
                     .then((response) => {
                         this.$refs.widget.loadWidgetStats(response.data)
-                        this.$refs.chartjs.loadDataWinLoss(response.data)
-                    });
+                });
             },
             loadDataTable(qty=10) {
                 let query='?qty='+qty
