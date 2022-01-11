@@ -27,6 +27,6 @@ Listado de tecnologías utilizadas en el proyecto:
 * [Laravel](https://laravel.com): V.7
 * [Vue.JS](https://vuejs.org): V.2.5
 
-* [Vue.JS](https://vuex.vuejs.org): V.3.6.2
+* [Vuex](https://vuex.vuejs.org): V.3.6.2
 * [Vue-charts](https://vue-chartjs.org): V.3.5.1
 * [Bootstrap](https://getbootstrap.com): V.4
