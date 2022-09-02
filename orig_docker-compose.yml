@@ -1,0 +1,50 @@
+version: "3.1"
+services:
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: apptrading
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+      - .:/etc/mysql/conf.d
+      - persistent:/var/lib/mysql
+    networks:
+      - default
+  www:
+    build: .
+    ports:
+      - "8081:80"
+    volumes:
+      - .:/var/www/html
+    links:
+      - db
+    networks:
+      - default
+  npm:
+    image: node:10
+    container_name: npm
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "3001:3001"
+    working_dir: /var/www/html
+    entrypoint: [ 'npm' ]
+    networks:
+      - default
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - db:db
+    ports:
+      - "8000:80"
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+volumes:
+  persistent:

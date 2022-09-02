@@ -1,0 +1,27 @@
+version: "3.1"
+services:
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: apptrading
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - persistent:/var/lib/mysql
+    networks:
+      - default
+  www:
+    build: .
+    ports:
+      - "8001:80"
+    volumes:
+      - .:/var/www/html
+    links:
+      - db
+    networks:
+      - default
+volumes:
+  persistent:
