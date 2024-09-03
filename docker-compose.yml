@@ -23,5 +23,18 @@ services:
       - db
     networks:
       - default
+  phpmyadmin:
+    links:
+      - db:db
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8081:80'
+    environment:
+      MYSQL_USERNAME: root
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - default
 volumes:
   persistent:
