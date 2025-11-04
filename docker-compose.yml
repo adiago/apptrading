@@ -1,7 +1,6 @@
-version: "3.1"
 services:
   db:
-    image: mysql
+    image: mysql:8.0
     restart: always
     ports:
       - "3307:3306"
@@ -12,20 +11,20 @@ services:
     volumes:
       - persistent:/var/lib/mysql
     networks:
-      - default
+      - apptrading-network
+
   www:
     build: .
     ports:
       - "8001:80"
     volumes:
       - .:/var/www/html
-    links:
+    depends_on:
       - db
     networks:
-      - default
+      - apptrading-network
+
   phpmyadmin:
-    links:
-      - db:db
     image: phpmyadmin/phpmyadmin
     restart: always
     ports:
@@ -34,7 +33,14 @@ services:
       MYSQL_USERNAME: root
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      - db
     networks:
-      - default
+      - apptrading-network
+
 volumes:
   persistent:
+
+networks:
+  apptrading-network:
+    driver: bridge
