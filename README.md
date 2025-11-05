@@ -28,17 +28,18 @@ List of technologies used in this project:
 
 ### Backend
 * [PHP](https://www.php.net): 8.0
-* [Laravel](https://laravel.com): 8.0
+* [Laravel](https://laravel.com): 8.83
 * [MySQL](https://www.mysql.com): 8.0
 * [Composer](https://getcomposer.org): Latest
 
 ### Frontend
-* [Vue.js](https://vuejs.org): 2.5.17
+* [Vue.js](https://vuejs.org): 2.6.14
 * [Vuex](https://vuex.vuejs.org): 3.6.2
 * [Vue-chartjs](https://vue-chartjs.org): 3.5.1
-* [Chart.js](https://www.chartjs.org): 2.9.3
-* [Bootstrap](https://getbootstrap.com): 4.5.0
-* [jQuery](https://jquery.com): 3.2
+* [Chart.js](https://www.chartjs.org): 2.9.4
+* [Bootstrap](https://getbootstrap.com): 5.3.0
+* [jQuery](https://jquery.com): 3.6
+* [Popper.js](https://popper.js.org): 2.11.8 (via @popperjs/core)
 * [Laravel Mix](https://laravel-mix.com): 5.0.5
 
 ### Development Tools
