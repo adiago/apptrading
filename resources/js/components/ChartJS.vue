@@ -3,6 +3,13 @@
     margin-left: auto ;
     margin-right: auto ;
 }
+.empty-state {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 </style>
 
 <template>
@@ -11,7 +18,12 @@
             <div class="card my-3 pa-0">
                 <div class="card-header">Sumatorio Diario</div>
                 <div class="card-body">
-                    <linechart ref="radarChart" v-if="datasetWinLoss.loaded" :chart-data="datasetSumDiary"></linechart>
+                    <div v-if="!datasetSumDiary.loaded || !hasSumDiaryData" class="text-center py-5 empty-state">
+                        <i class="material-icons" style="font-size: 80px; color: #6c757d; opacity: 0.5;">show_chart</i>
+                        <h5 class="mt-3 text-muted">No data available</h5>
+                        <p class="text-muted">Add some trades to see your daily summary chart.</p>
+                    </div>
+                    <linechart v-else ref="radarChart" :chart-data="datasetSumDiary"></linechart>
                 </div>
             </div>
         </div>
@@ -19,7 +31,12 @@
             <div class="card my-3 pa-0">
                 <div class="card-header">Operaciones Positivas/Negativas</div>
                 <div class="card-body center-card">
-                    <piechart ref="upDownChart" v-if="datasetSumDiary.loaded" :chart-data="datasetWinLoss"></piechart>
+                    <div v-if="!datasetWinLoss.loaded || !hasWinLossData" class="text-center py-5 empty-state">
+                        <i class="material-icons" style="font-size: 80px; color: #6c757d; opacity: 0.5;">pie_chart</i>
+                        <h5 class="mt-3 text-muted">No data available</h5>
+                        <p class="text-muted">Complete some trades to see win/loss statistics.</p>
+                    </div>
+                    <piechart v-else ref="upDownChart" :chart-data="datasetWinLoss"></piechart>
                 </div>
             </div>
         </div>
@@ -27,7 +44,12 @@
             <div class="card my-3 pa-0">
                 <div class="card-header">Operaciones Largo/Corto</div>
                 <div class="card-body center-card">
-                    <piechart ref="longShortChart" v-if="datasetLongShort.loaded" :chart-data="datasetLongShort"></piechart>
+                    <div v-if="!datasetLongShort.loaded || !hasLongShortData" class="text-center py-5 empty-state">
+                        <i class="material-icons" style="font-size: 80px; color: #6c757d; opacity: 0.5;">donut_large</i>
+                        <h5 class="mt-3 text-muted">No data available</h5>
+                        <p class="text-muted">Add buy and sell trades to see long/short distribution.</p>
+                    </div>
+                    <piechart v-else ref="longShortChart" :chart-data="datasetLongShort"></piechart>
                 </div>
             </div>
         </div>
@@ -50,6 +72,20 @@ import BarChart from "./BarChart.vue"
   export default {
     components: { PieChart, BarChart},
     name: 'VueChartJS',
+    computed: {
+        hasSumDiaryData() {
+            return this.datasetSumDiary.labels && this.datasetSumDiary.labels.length > 0 && 
+                   this.datasetSumDiary.datasets[0].data && this.datasetSumDiary.datasets[0].data.length > 0;
+        },
+        hasWinLossData() {
+            return this.datasetWinLoss.datasets[0].data && 
+                   this.datasetWinLoss.datasets[0].data.some(val => val > 0);
+        },
+        hasLongShortData() {
+            return this.datasetLongShort.datasets[0].data && 
+                   this.datasetLongShort.datasets[0].data.some(val => val > 0);
+        }
+    },
     data: () => ({
         // // datasetPerHours: {
         //     loaded: false,
@@ -144,6 +180,14 @@ import BarChart from "./BarChart.vue"
                 axios.get('/chart-points')
                     .then((response) => {
                         var objs = response.data
+                        
+                        if (!objs || Object.keys(objs).length === 0) {
+                            vm.datasetSumDiary.labels = []
+                            vm.datasetSumDiary.datasets[0].data = []
+                            vm.datasetSumDiary.loaded = true
+                            return
+                        }
+                        
                         var total = 0
                         var ordered = {};
                         Object.keys(objs).sort(function(a,b) {
@@ -158,6 +202,8 @@ import BarChart from "./BarChart.vue"
                         vm.datasetSumDiary.labels = Object.keys(ordered)
                         vm.datasetSumDiary.datasets[0].data = Object.values(ordered)
                         vm.datasetSumDiary.loaded = true
+                    }).catch(() => {
+                        vm.datasetSumDiary.loaded = true
                     });
 
             },
@@ -168,11 +214,20 @@ import BarChart from "./BarChart.vue"
                     response = response.data
                     console.log(response)
                     var all = response.win + response.loss + response.break;
+                    
+                    if (all === 0) {
+                        vm.datasetWinLoss.datasets[0].data = [0, 0, 0]
+                        vm.datasetWinLoss.loaded = true
+                        return
+                    }
+                    
                     var wins = Math.round(response.win/all *100)
                     var losses = Math.round(response.loss  /all *100)
                     var breakevens = Math.round(response.break/all *100)
                     
                     vm.datasetWinLoss.datasets[0].data = [wins,losses,breakevens]
+                    vm.datasetWinLoss.loaded = true
+                }).catch(() => {
                     vm.datasetWinLoss.loaded = true
                 });
             },
@@ -183,10 +238,19 @@ import BarChart from "./BarChart.vue"
                     response = response.data
                     console.log(response)
                     var all = (response.long + response.short)
+                    
+                    if (all === 0) {
+                        vm.datasetLongShort.datasets[0].data = [0, 0]
+                        vm.datasetLongShort.loaded = true
+                        return
+                    }
+                    
                     var long = Math.round(response.long/all *100)
                     var short = Math.round(response.short/all *100)
                     
                     vm.datasetLongShort.datasets[0].data = [long,short]
+                    vm.datasetLongShort.loaded = true
+                }).catch(() => {
                     vm.datasetLongShort.loaded = true
                 });
             },

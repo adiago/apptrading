@@ -27,7 +27,7 @@
             @tradeForm="tradeFormSaved">
         </trade-form>
         <a
-            data-toggle="modal" data-target="#addTradeModal"
+            data-bs-toggle="modal" data-bs-target="#addTradeModal"
             class="float btn btn-success z-index999">
             <i class="material-icons md-36 my-float">add</i>
         </a>

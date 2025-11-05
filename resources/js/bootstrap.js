@@ -7,10 +7,11 @@ window._ = require('lodash');
  */
 
 try {
-    window.Popper = require('popper.js').default;
+    // Bootstrap 5 no requiere jQuery, pero lo mantenemos por compatibilidad con otros componentes
     window.$ = window.jQuery = require('jquery');
-
-    require('bootstrap');
+    
+    // Bootstrap 5 usa @popperjs/core
+    window.bootstrap = require('bootstrap');
 } catch (e) {}
 
 /**

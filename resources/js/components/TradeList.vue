@@ -8,6 +8,13 @@
     .static-position {
         position: static;
     }
+    .empty-state {
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 </style>
 <template>
 <!-- https://es.investing.com/webmaster-tools/profit-calculator -->
@@ -25,7 +32,17 @@
                         </select>
                     </div>
                 </div>
-                <table class="table table-hover">
+                <div v-if="datatable.length === 0" class="text-center py-5">
+                    <div class="empty-state">
+                        <i class="material-icons" style="font-size: 80px; color: #6c757d; opacity: 0.5;">history</i>
+                        <h5 class="mt-3 text-muted">No transactions yet</h5>
+                        <p class="text-muted mb-4">Start tracking your trades by adding your first transaction.</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTradeModal">
+                            <i class="material-icons align-middle">add</i> Add Your First Trade
+                        </button>
+                    </div>
+                </div>
+                <table v-else class="table table-hover">
                     <thead>
                     <tr>
                         <th scope="col" :class="(col=='Strategy') ? 'd-none d-sm-block' : ''" v-for="(col,idx) in columns" :key="idx">{{col}}</th>
@@ -40,7 +57,7 @@
                         <td class="d-none d-sm-block">{{data.strategy_name || 'None'}}</td>
                         <td :class="colorBalance(data.points)">{{data.points}}</td>
                         <td>
-                            <a data-toggle="modal" data-target="#addTradeModal" @click="sendTransaction(data)">
+                            <a data-bs-toggle="modal" data-bs-target="#addTradeModal" @click="sendTransaction(data)">
                                 <i class="material-icons pointer hover-darkred" title="Editar">edit</i>
                             </a>
                             <!-- <a data-toggle="modal" data-target="#addTradeModal" @click="deleteTransaction(data)">

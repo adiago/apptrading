@@ -19,7 +19,7 @@
                         {{w.name}}
                     </h6>
                     <div  v-show="loadwidget" class="spinner-border" role="status">
-                        <span class="sr-only">Loading...</span>
+                        <span class="sr-only"></span>
                     </div>
                     <h1 v-show="!loadwidget" class="display-5">{{w.val}}</h1>
                 </div>
@@ -34,12 +34,12 @@
             return {
                 loadwidget: false,
                 widgets: [
-                    { id: 1, name: 'Trades', val: 0, color: 'bg-gradient-info' },
-                    { id: 2, name: 'Points', val: 0, color: 'bg-gradient-secondary' },
-                    { id: 3, name: 'Ratio B/R', val: 0, color: 'bg-gradient-warning' },
-                    { id: 4, name: 'Win Trades', val: 0, color: 'bg-gradient-success' },
-                    { id: 5, name: 'Break Even', val: 0, color: 'bg-gradient-dark' },
-                    { id: 6, name: 'Loss Trades', val: 0, color: 'bg-gradient-danger' }
+                    { id: 1, name: 'Trades', val: 0, color: 'bg-info' },
+                    { id: 2, name: 'Points', val: 0, color: 'bg-secondary' },
+                    { id: 3, name: 'Ratio B/R', val: 0, color: 'bg-warning' },
+                    { id: 4, name: 'Win Trades', val: 0, color: 'bg-success' },
+                    { id: 5, name: 'Break Even', val: 0, color: 'bg-dark' },
+                    { id: 6, name: 'Loss Trades', val: 0, color: 'bg-danger' }
                 ],
             }
         },

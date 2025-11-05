@@ -14,7 +14,7 @@ class AddColumnAsset extends Migration
     public function up()
     {
         Schema::table('users', function(Blueprint $table) {
-            // $table->foreignId('asset_id')->after('remember_token')->unsigned()->nullable();
+            $table->foreignId('asset_id')->after('remember_token')->unsigned()->nullable();
             $table->foreignId('market_id')->after('remember_token')->unsigned()->nullable();
 
             $table->foreign('asset_id')->references('id')->on('assets');
